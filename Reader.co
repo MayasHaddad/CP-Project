@@ -1,0 +1,17 @@
+class Reader {
+	
+	set{string} fileCommands;
+	int n;
+	float f;
+
+Reader() {
+
+	}
+
+void read(string fileToRead) { // Doit contenir une extention
+	ifstream fIn(fileToRead);
+	if (fIn.good()){
+		fileCommands.insert(fIn.getLine);		
+	}
+
+}

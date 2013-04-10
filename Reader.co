@@ -5,13 +5,29 @@ class Reader {
 	float f;
 
 Reader() {
+}
 
-	}
+void read(string fileToRead) { // Chemin absolu et doit contenir une extension
+   
+   ifstream fIn(fileToRead);
+   if (fIn.good()){
+     fileCommands = {fIn.getLine()};		
+     //cout<< fIn.getLine() <<endl; 
+   }else{
+      cout<< "Failed to read the file" <<endl;
+   }
+}
 
-void read(string fileToRead) { // Doit contenir une extention
-	ifstream fIn(fileToRead);
-	if (fIn.good()){
-		fileCommands.insert(fIn.getLine);		
-	}
+void print(){
+  cout<< fileCommands.atRank(0) <<endl;  
+}
+
+set{string} getCommands(){
+   return fileCommands;
+}
 
 }
+
+Reader r = Reader();
+r.read("/net/k3/u/etudiant/mhadda1/PPC/CP-Project/File");
+r.print();

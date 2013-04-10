@@ -1,0 +1,47 @@
+include "Tuples";
+class Parser{
+
+set{person} persons;
+set{group} groups;
+
+Parser(set{string} commandSet){
+   // Inialiser notre set de commandes local avec un set en input
+   fileCommands = commandSet;
+   persons = {};
+   groups = {};
+}
+
+set{string} fileCommands;
+
+void parse(){
+   forall (i in fileCommands){
+      string[] sTab = i.split(" ");
+      if(sTab[0].equals("personne")) {
+         addPerson(sTab);s
+      }
+      if(sTab[0].equals("groupe")){
+          addGroup(sTab);
+         }
+      }
+   }
+
+void addPerson(string[] stringTab){
+      string name = stringTab[1];
+      set{string} myOption={};
+      for(int i = 2; i<stringTab.getSize() ;i++){
+         myOption.insert(stringTab[i]);
+      }
+      persons.insert(person(name,myOption));
+   }
+
+void addGroup(string[] stringTab){
+      groups.insert(group(stringTab[1],stringTab[2].toInt(),stringTab[3].toInt(),stringTab[4].toInt()));
+      
+   }
+
+void print(){
+ forall(i in persons) cout<< i <<endl; 
+forall(i in groups) cout<< i <<endl; 
+}
+
+}

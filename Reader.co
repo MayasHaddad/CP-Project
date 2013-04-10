@@ -1,25 +1,27 @@
+include "Parser";
+include "Tuples";
+
 class Reader {
 	
-	set{string} fileCommands;
+	set{string} fileCommands; // notre structure qui va contenir les commandes
 	int n;
 	float f;
 
 Reader() {
+ fileCommands = {};
 }
 
 void read(string fileToRead) { // Chemin absolu et doit contenir une extension
    
    ifstream fIn(fileToRead);
-   if (fIn.good()){
-     fileCommands = {fIn.getLine()};		
-     //cout<< fIn.getLine() <<endl; 
-   }else{
-      cout<< "Failed to read the file" <<endl;
+   
+   while (fIn.good()){
+     fileCommands.insert(fIn.getLine());
    }
 }
 
 void print(){
-  cout<< fileCommands.atRank(0) <<endl;  
+ forall(i in fileCommands) cout<< i <<endl;  
 }
 
 set{string} getCommands(){
@@ -28,6 +30,9 @@ set{string} getCommands(){
 
 }
 
+//________________________________________ MAIN _____________________________________________
 Reader r = Reader();
 r.read("/net/k3/u/etudiant/mhadda1/PPC/CP-Project/File");
-r.print();
+Parser p = new Parser(r.getCommands());
+p.parse();
+p.print();

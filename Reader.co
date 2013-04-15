@@ -32,7 +32,7 @@ set{string} getCommands(){
 
 //________________________________________ MAIN _____________________________________________
 Reader r = Reader();
-r.read("/net/k3/u/etudiant/mhadda1/PPC/CP-Project/File");
+r.read("C:/Users/user/Projet-PPC/CP-Project/File");
 Parser p = new Parser(r.getCommands());
 p.parse();
 p.print();

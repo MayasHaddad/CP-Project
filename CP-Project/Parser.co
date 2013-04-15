@@ -3,21 +3,22 @@ class Parser{
 
 set{person} persons;
 set{group} groups;
+set{string} fileCommands;
+dict{set{string}->set{string}} personsBySameOptions; // Regrouper les pesonnes par options choisies
 
 Parser(set{string} commandSet){
    // Inialiser notre set de commandes local avec un set en input
    fileCommands = commandSet;
    persons = {};
    groups = {};
+  personsBySameOptions = new dict{set{string}->set{string}}();
 }
-
-set{string} fileCommands;
 
 void parse(){
    forall (i in fileCommands){
       string[] sTab = i.split(" ");
       if(sTab[0].equals("personne")) {
-         addPerson(sTab);s
+         addPerson(sTab);
       }
       if(sTab[0].equals("groupe")){
           addGroup(sTab);
@@ -25,23 +26,38 @@ void parse(){
       }
    }
 
+void addToOptions(string personId, set{string} optionsId){      
+
+      if(!personsBySameOptions.hasKey(optionsId)){
+            personsBySameOptions{optionsId} = {personId};       
+      }else{     
+            personsBySameOptions{optionsId}.insert(personId);
+         }
+}
+
 void addPerson(string[] stringTab){
       string name = stringTab[1];
-      set{string} myOption={};
+      set{string} myOptions={};
       for(int i = 2; i<stringTab.getSize() ;i++){
-         myOption.insert(stringTab[i]);
+         if(!stringTab[i].equals("")) myOptions.insert(stringTab[i]);
       }
-      persons.insert(person(name,myOption));
+      persons.insert(person(name,myOptions));
+      // On insère la personne avec les personnes ayant choisi exactement les mêmes option
+      addToOptions(name,myOptions);
    }
 
 void addGroup(string[] stringTab){
       groups.insert(group(stringTab[1],stringTab[2].toInt(),stringTab[3].toInt(),stringTab[4].toInt()));
-      
    }
 
 void print(){
- forall(i in persons) cout<< i <<endl; 
-forall(i in groups) cout<< i <<endl; 
+ //forall(i in persons) cout<< i <<endl; 
+//forall(i in groups) cout<< i <<endl;
+set{set{string}} keys = personsBySameOptions.getKeys();
+forall(i in keys){
+   cout<< i << ":" << endl;
+   forall(j in personsBySameOptions{i})  cout << j <<endl;
+   }
 }
 
 }

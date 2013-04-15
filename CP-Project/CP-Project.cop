@@ -1,13 +1,13 @@
 <CometProject>
     <CometFiles>
         <CometFile default="true" id="0">
-            <Path type="absolute">/net/k3/u/etudiant/mhadda1/PPC/CP-Project/Reader.co</Path>
+            <Path type="relative">../Reader.co</Path>
         </CometFile>
     </CometFiles>
     <DataFiles/>
     <Breakpoints>
         <Breakpoint line="29" active="false" id="1">
-            <Path type="absolute">/net/k3/u/etudiant/mhadda1/PPC/CP-Project/Reader.co</Path>
+            <Path type="relative">../Reader.co</Path>
         </Breakpoint>
     </Breakpoints>
 </CometProject>

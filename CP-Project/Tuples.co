@@ -1,2 +1,3 @@
 tuple person {string personId; set{string} optionId;}
 tuple group {string groupId; int creneau; int effMin; int effMax;}
+tuple option {string optionId; set{string} personId;}

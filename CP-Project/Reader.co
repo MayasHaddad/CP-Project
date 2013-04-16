@@ -1,0 +1,31 @@
+include "Parser";
+include "Tuples";
+
+class Reader {
+	
+	set{string} fileCommands; // notre structure qui va contenir les commandes
+	int n;
+	float f;
+
+Reader() {
+ fileCommands = {};
+}
+
+void read(string fileToRead) { // Chemin absolu et doit contenir une extension
+   ifstream fIn(fileToRead);
+   
+   while (fIn.good()){
+     fileCommands.insert(fIn.getLine());
+   }
+}
+
+void print(){
+ forall(i in fileCommands) cout<< i <<endl;  
+}
+
+set{string} getCommands(){
+   return fileCommands;
+}
+
+}
+

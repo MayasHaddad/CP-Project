@@ -1,0 +1,69 @@
+include "Tuples";
+include "Reader";
+include "Parser";
+
+import cotfd;
+
+Solver<CP> mySolver();
+
+Reader r = Reader();
+r.read("/net/k13/u/etudiant/sbazin10/CP-Project/File");
+Parser p = new Parser(r.getCommands());
+p.parse();
+//p.print();
+
+set{group} mySet = p.getGroup();
+dict{string->dict{int->var<CP>{int}}} dictGroup = new dict{string->dict{int->var<CP>{int}}}();
+dict{set{string}->set{string}} personBySameOption = p.getPersonBySameOption();
+dict{set{string}->int} sizePerson= new dict{set{string}->int}();
+dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}} dictDivGroup = new dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}}();
+
+set{set{string}} keys = personBySameOption.getKeys();
+forall(i in keys){
+  sizePerson{i} = personBySameOption{i}.getSize(); 
+}
+
+
+forall(i in mySet){
+   if(!dictGroup.hasKey(i.groupId)){
+            dict{int->var<CP>{int}} listeCreneau = new dict{int->var<CP>{int}}();
+            range r = 0..i.effMax;
+            listeCreneau{i.creneau} = new var<CP>{int} (mySolver,r);
+            dictGroup{i.groupId} = listeCreneau;   
+            
+            dict{set{string}->var<CP>{int}} aa = buildArray(i.groupId, sizePerson, mySolver);
+            dictDivGroup{listeCreneau{i.creneau}} = aa;
+         
+    
+      }else{     
+            range r = 0..i.effMax;
+            dictGroup{i.groupId}{i.creneau} = new var<CP>{int} (mySolver,r);
+            dict{set{string}->var<CP>{int}} aa = buildArray(i.groupId, sizePerson, mySolver);            
+            dictDivGroup{dictGroup{i.groupId}{i.creneau}} = aa;
+      }
+}
+
+
+function dict{set{string}->var<CP>{int}} buildArray(string group, dict{set{string}->int} sizePerson,Solver<CP> mySolver){
+   dict{set{string}->var<CP>{int}} newDict = new dict{set{string}->var<CP>{int}}();
+
+   set{set{string}} keys = sizePerson.getKeys();
+   forall(i in keys){
+        if(i.contains(group)){          
+              range r = 0..sizePerson{i};
+              newDict{i} = new var<CP>{int} (mySolver,r);
+      }        
+   }
+      return newDict;
+}
+
+cout << dictGroup << endl;
+cout << dictDivGroup << endl;
+
+solveall<mySolver>{
+   
+
+
+
+
+}

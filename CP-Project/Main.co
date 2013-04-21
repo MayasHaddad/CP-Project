@@ -13,13 +13,20 @@ p.parse();
 //p.print();
 
 set{group} mySet = p.getGroup();
+
 dict{set{string}->set{string}} personBySameOption = p.getPersonBySameOption();
 dict{set{string}->int} sizePerson= new dict{set{string}->int}();
 dict{string->dict{group->var<CP>{int}}} dictGroup = new dict{string->dict{group->var<CP>{int}}}();
 dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}} dictDivGroup = new dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}}();
 dict{var<CP>{int} -> int} myDict;
 
-set{set{string}} keys = personBySameOption.getKeys();
+
+dict{set{string}->int} sizePerson= new dict{set{string}->int}(); // Nombre de personnes ayant fait le même choix d'options ?
+
+dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}} dictDivGroup = new dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}}(); // Je ne sais pas ce que c'est 
+
+set{set{string}} keys = personBySameOption.getKeys(); // Tous les choix pris
+
 forall(i in keys){
   sizePerson{i} = personBySameOption{i}.getSize(); 
 }
@@ -48,8 +55,10 @@ forall(i in mySet){
 
 
 function dict{set{string}->var<CP>{int}} buildArray(string group, dict{set{string}->int} sizePerson,Solver<CP> mySolver){
+
    dict{set{string}->var<CP>{int}}
     newDict = new dict{set{string}->var<CP>{int}}();
+
    set{set{string}} keys = sizePerson.getKeys();
    forall(i in keys){
         if(i.contains(group)){          

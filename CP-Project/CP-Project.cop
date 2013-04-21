@@ -1,13 +1,22 @@
 <CometProject>
     <CometFiles>
         <CometFile default="true" id="0">
-            <Path type="relative">../Reader.co</Path>
+            <Path type="relative">Main.co</Path>
+        </CometFile>
+        <CometFile default="false" id="1">
+            <Path type="relative">Parser.co</Path>
+        </CometFile>
+        <CometFile default="false" id="2">
+            <Path type="relative">Reader.co</Path>
+        </CometFile>
+        <CometFile default="false" id="3">
+            <Path type="relative">Tuples.co</Path>
         </CometFile>
     </CometFiles>
     <DataFiles/>
     <Breakpoints>
-        <Breakpoint line="29" active="false" id="1">
-            <Path type="relative">../Reader.co</Path>
+        <Breakpoint line="29" active="false" id="4">
+            <Path type="relative">../Main.co</Path>
         </Breakpoint>
     </Breakpoints>
 </CometProject>

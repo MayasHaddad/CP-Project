@@ -14,6 +14,17 @@ Parser(set{string} commandSet){
   personsBySameOptions = new dict{set{string}->set{string}}();
 }
 
+set{person} getPerson(){
+   return persons;
+}
+
+set{group} getGroup(){
+   return groups;
+}
+
+dict{set{string}->set{string}} getPersonBySameOption(){
+   return personsBySameOptions;
+}
 void parse(){
    forall (i in fileCommands){
       string[] sTab = i.split(" ");
@@ -32,7 +43,7 @@ void addToOptions(string personId, set{string} optionsId){
             personsBySameOptions{optionsId} = {personId};       
       }else{     
             personsBySameOptions{optionsId}.insert(personId);
-         }
+      }
 }
 
 void addPerson(string[] stringTab){
@@ -42,19 +53,20 @@ void addPerson(string[] stringTab){
          if(!stringTab[i].equals("")) myOptions.insert(stringTab[i]);
       }
       persons.insert(person(name,myOptions));
-      // On insère la personne avec les personnes ayant choisi exactement les mêmes option
+      // On insre la personne avec les personnes ayant choisi exactement les mmes option
       addToOptions(name,myOptions);
    }
 
 void addGroup(string[] stringTab){
-      groups.insert(group(stringTab[1],stringTab[2].toInt(),stringTab[3].toInt(),stringTab[4].toInt()));
+      groups.insert(group(stringTab[2],stringTab[3].toInt(),stringTab[4].toInt(),stringTab[5].toInt(),stringTab[1]));
+      //cout << groups << endl;
    }
 
 void print(){
  //forall(i in persons) cout<< i <<endl; 
 //forall(i in groups) cout<< i <<endl;
-set{set{string}} keys = personsBySameOptions.getKeys();
-forall(i in keys){
+   set{set{string}} keys = personsBySameOptions.getKeys();
+   forall(i in keys){
    cout<< i << ":" << endl;
    forall(j in personsBySameOptions{i})  cout << j <<endl;
    }

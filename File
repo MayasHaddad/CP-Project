@@ -1,16 +1,42 @@
-fzefzef
-fgthytf
-personne Luc_Ratif ig it ia
-personne Jean_Balle ig ia it
-personne Sara_Croche ig ia
-groupe ppc 2 10 10
-groupe salut 2 10 10
-groupe bonjour 2 10 10
-groupe hey 2 10 10
-azd
-az
-d
-q
-cqa
-féa
-f
+c iTest4
+c 30 personnes - 2 options
+c 4 groupes - 3 crÃ©naux
+c 3 groupes suffisent
+c ceux ayant l'option 2 forcÃ©ment dans opt2_g1 et opt1_g1 ou opt1_g3
+
+personne p1 opt1 opt2
+personne p2 opt1 opt2
+personne p3 opt1 opt2
+personne p4 opt1 opt2
+personne p5 opt1 opt2
+personne p6 opt1 opt2
+personne p7 opt1 opt2
+personne p8 opt1 opt2
+personne p9 opt1 opt2
+personne p10 opt1 opt2
+personne p11 opt1 opt2
+personne p12 opt1
+personne p13 opt1
+personne p14 opt1
+personne p15 opt1
+personne p16 opt1
+personne p17 opt1
+personne p18 opt1
+personne p19 opt1
+personne p20 opt1
+personne p21 opt1
+personne p22 opt1
+personne p23 opt1
+personne p24 opt1
+personne p25 opt1
+personne p26 opt1
+personne p27 opt1
+personne p28 opt1
+personne p29 opt1
+personne p30 opt1
+
+groupe opt1_g1 opt1 1 12 20
+groupe opt1_g2 opt1 2 10 20
+groupe opt1_g3 opt1 3 10 20
+groupe opt2_g1 opt2 2 10 20
+

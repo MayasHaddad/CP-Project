@@ -12,7 +12,7 @@ Reader() {
 }
 
 void read(string fileToRead) { // Chemin absolu et doit contenir une extension
-   
+
    ifstream fIn(fileToRead);
    
    while (fIn.good()){
@@ -30,9 +30,3 @@ set{string} getCommands(){
 
 }
 
-//________________________________________ MAIN _____________________________________________
-Reader r = Reader();
-r.read("C:/Users/user/Projet-PPC/CP-Project/File");
-Parser p = new Parser(r.getCommands());
-p.parse();
-p.print();

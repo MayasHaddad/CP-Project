@@ -13,10 +13,11 @@ p.parse();
 //p.print();
 
 set{group} mySet = p.getGroup();
-dict{string->dict{int->var<CP>{int}}} dictGroup = new dict{string->dict{int->var<CP>{int}}}();
 dict{set{string}->set{string}} personBySameOption = p.getPersonBySameOption();
 dict{set{string}->int} sizePerson= new dict{set{string}->int}();
+dict{string->dict{group->var<CP>{int}}} dictGroup = new dict{string->dict{group->var<CP>{int}}}();
 dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}} dictDivGroup = new dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}}();
+dict{var<CP>{int} -> int} myDict;
 
 set{set{string}} keys = personBySameOption.getKeys();
 forall(i in keys){
@@ -24,29 +25,31 @@ forall(i in keys){
 }
 
 
+
+//cout <<mySet<<endl;
 forall(i in mySet){
    if(!dictGroup.hasKey(i.groupId)){
-            dict{int->var<CP>{int}} listeCreneau = new dict{int->var<CP>{int}}();
+            dict{group->var<CP>{int}} listeCreneau = new dict{group->var<CP>{int}}();
             range r = 0..i.effMax;
-            listeCreneau{i.creneau} = new var<CP>{int} (mySolver,r);
+            listeCreneau{i} = new var<CP>{int} (mySolver,r);
             dictGroup{i.groupId} = listeCreneau;   
             
             dict{set{string}->var<CP>{int}} aa = buildArray(i.groupId, sizePerson, mySolver);
-            dictDivGroup{listeCreneau{i.creneau}} = aa;
+            dictDivGroup{listeCreneau{i}} = aa;
          
     
       }else{     
             range r = 0..i.effMax;
-            dictGroup{i.groupId}{i.creneau} = new var<CP>{int} (mySolver,r);
+            dictGroup{i.groupId}{i} = new var<CP>{int} (mySolver,r);
             dict{set{string}->var<CP>{int}} aa = buildArray(i.groupId, sizePerson, mySolver);            
-            dictDivGroup{dictGroup{i.groupId}{i.creneau}} = aa;
+            dictDivGroup{dictGroup{i.groupId}{i}} = aa;
       }
 }
 
 
 function dict{set{string}->var<CP>{int}} buildArray(string group, dict{set{string}->int} sizePerson,Solver<CP> mySolver){
-   dict{set{string}->var<CP>{int}} newDict = new dict{set{string}->var<CP>{int}}();
-
+   dict{set{string}->var<CP>{int}}
+    newDict = new dict{set{string}->var<CP>{int}}();
    set{set{string}} keys = sizePerson.getKeys();
    forall(i in keys){
         if(i.contains(group)){          
@@ -57,13 +60,145 @@ function dict{set{string}->var<CP>{int}} buildArray(string group, dict{set{strin
       return newDict;
 }
 
-cout << dictGroup << endl;
-cout << dictDivGroup << endl;
+function int calculeTotal(string s, dict{set{string}->int} sizePerson){
+   int a = 0;
+   set{set{string}} keys = sizePerson.getKeys();
+   forall(i in keys){
+        if(i.contains(s)){
+            a = a+sizePerson{i};         
+        }
+   }
+   return a;
+}
 
-solveall<mySolver>{
+function void creerContrainte(dict{var<CP>{int} -> int} myDict,set{string} key, dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}} dictDivGroup,dict{set{string}->int} sizePerson,Solver<CP> mySolver){
+      set{var<CP>{int}} keys = myDict.getKeys();
+      
+      forall(i in keys){
+          // cout << i<< endl;
+          // cout<< dictDivGroup{i} << endl;
+        }
+      mySolver.post(  (sum(i in keys) dictDivGroup{i}{key}) <= sizePerson{key});
+
+
+}
+//cout << dictGroup << endl;
+//cout << dictDivGroup << endl;
+//cout << sizePerson << endl;
+//cout << sizePerson << endl;
+
+solve<mySolver>{
+
+/*dict{set{string}->set{var<CP>{int}}} myNewDict = new dict{set{string}->set{var<CP>{int}}}();
+set{var<CP>{int}} keyss = dictDivGroup.getKeys();
+   forall(i in keyss){
+      
+      set{set{string}} keyy = dictDivGroup{i}.getKeys();
+      forall(j in keyy){
+         if(!myNewDict.hasKey(j)){
+            myNewDict{j} ={};
+            myNewDict{j}.insert(dictDivGroup{i}{j});
+         }
+         else{
+            myNewDict{j}.insert(dictDivGroup{i}{j});
+         }
+      }
+   }
+
+set{set{string}} myOptionList = myNewDict.getKeys();
+forall(i in myOptionList){
+     set{var<CP>{int}}mySet = myNewDict{i};
+      cout << mySet << endl;
+      cout << sizePerson{i} << endl;
+     mySolver.post(  (sum(j in mySet) j) == sizePerson{i});
+}*/
+
+
+//La somme des étudiants ayant pris une option est égale à la somme des étudiants contenue dans les groupes de cette option.  
+set{string} keys = dictGroup.getKeys();
+cout << keys << endl;
+forall(i in keys){
+   //On récupère le nombre d'étudiants ayant choisi l'option en question
+   int totPers = calculeTotal(i,sizePerson);
+    // cout << i << endl;
+     // cout << totPers << endl;
+   //On poste notre contrainte : la somme des variables des différents groupes d'une option égale au total totPers
+   set{group} tabCreneau = dictGroup{i}.getKeys(); 
+  // cout << tabCreneau<< endl;
+    mySolver.post(  (sum(j in tabCreneau) dictGroup{i}{j}) == totPers);
+}
+
+//cout << dictGroup << endl;
+set{set{string}} key = sizePerson.getKeys();
+forall(i in key){
+     
+   bool a = false;
    
+   forall(j in i){
+      set{group} horaireOption = dictGroup{j}.getKeys();
+      forall(horair in horaireOption){
+      int horaire = horair.creneau;
+      //cout << horaire << endl;
+      forall(k in i){
+        myDict = new dict{var<CP>{int} -> int}();
+              set{group} horaireOptionGroupDeux = dictGroup{k}.getKeys();
+              forall(groupe in horaireOptionGroupDeux){
+                  int aaa = groupe.creneau;
+                  
+                  if(aaa == horaire && horair != groupe){
+                 
+                     if(!myDict.hasKey(dictGroup{j}{horair})){
+                       // cout << "test" << endl;
+                        a=true;
+                        myDict{dictGroup{j}{horair}}=1;
+                     } 
+                     if(!myDict.hasKey(dictGroup{k}{groupe})){
+                       // cout << "test" << endl;
+                        a=true;
+                        myDict{dictGroup{k}{groupe}}=1;
+                     }
+                    
+                  }
+               }                      
+              
+         
+         }
+         if(a){
+            //cout <<"lol"<< endl;
+           // cout <<myDict<<endl;
+          creerContrainte(myDict,i,dictDivGroup,sizePerson,mySolver);
+         }
+         
+         
+      }
+         
+     
+   }
+   // cout << i << endl;
+   // cout << myDict << endl;
+      
+    
+}
+
+set{var<CP>{int}} tmpa = dictDivGroup.getKeys();
+   forall(i in tmpa){
+      set{set{string}} tmp = dictDivGroup{i}.getKeys();
+      mySolver.post( (sum (j in tmp) dictDivGroup{i}{j} ) == i);
+
+}
 
 
 
+} using{
+   set{var<CP>{int}} keys = dictDivGroup.getKeys();
+   forall(i in keys){
+      label(i);
+      set{set{string}} key = dictDivGroup{i}.getKeys();
+      forall(j in key){
+         label(dictDivGroup{i}{j});
+      }
+   }
 
+   cout << dictGroup << endl;
+   //cout << dictDivGroup << endl;
 }

@@ -1,0 +1,150 @@
+c gen-p100-o8-pc36-c20-10.data
+personne p1 opt1 opt2
+personne p100 opt1 opt6 opt7
+personne p107 opt2 opt5 opt8
+personne p108 opt1 opt3 opt8
+personne p11 opt1 opt4 opt5
+personne p111 opt1 opt6 opt7
+personne p112 opt1 opt3 opt5
+personne p113 opt2 opt6 opt7
+personne p114 opt1 opt7 opt8
+personne p117 opt1 opt5 opt7
+personne p12 opt1 opt2 opt8
+personne p123 opt1 opt2 opt5
+personne p124 opt2 opt7 opt8
+personne p125 opt2 opt4 opt8
+personne p126 opt1 opt2 opt5
+personne p129 opt2 opt5 opt8
+personne p132 opt1 opt6 opt7
+personne p137 opt1 opt2 opt6
+personne p140 opt2 opt6 opt7
+personne p142 opt1 opt7 opt8
+personne p143 opt2 opt7 opt8
+personne p144 opt2 opt7 opt8
+personne p146 opt1 opt6 opt7
+personne p149 opt4 opt6 opt8
+personne p157 opt2 opt6 opt7
+personne p159 opt1 opt2 opt6
+personne p16 opt6 opt7 opt8
+personne p161 opt1 opt6 opt8
+personne p164 opt1 opt2 opt5
+personne p167 opt5 opt6 opt8
+personne p168 opt1 opt8
+personne p169 opt1 opt6 opt7
+personne p17 opt1 opt4 opt8
+personne p170 opt6 opt7
+personne p173 opt1 opt6 opt8
+personne p176 opt1 opt5 opt7
+personne p179 opt2 opt5 opt7
+personne p18 opt1 opt7 opt8
+personne p181 opt1 opt2
+personne p185 opt4 opt5 opt7
+personne p190 opt1 opt6
+personne p191 opt2 opt4 opt8
+personne p194 opt1 opt2 opt7
+personne p196 opt1 opt2 opt8
+personne p197 opt5 opt6 opt7
+personne p198 opt1 opt2 opt5
+personne p199 opt1 opt2 opt7
+personne p2 opt2 opt6
+personne p20 opt1 opt2 opt7
+personne p22 opt2 opt7 opt8
+personne p23 opt2 opt6 opt8
+personne p24 opt2 opt5 opt8
+personne p25 opt2 opt7 opt8
+personne p26 opt6 opt7 opt8
+personne p27 opt1 opt7 opt8
+personne p28 opt1 opt2 opt8
+personne p29 opt1 opt6 opt7
+personne p3 opt1 opt5
+personne p30 opt1 opt4 opt5
+personne p31 opt1 opt2 opt5
+personne p32 opt2 opt5 opt7
+personne p33 opt1 opt8
+personne p35 opt1 opt4 opt8
+personne p36 opt1 opt7 opt8
+personne p38 opt1 opt5 opt8
+personne p4 opt2 opt5
+personne p40 opt2 opt6 opt8
+personne p41 opt1 opt2 opt7
+personne p42 opt1 opt2 opt7
+personne p46 opt1 opt2 opt6
+personne p5 opt2 opt8
+personne p51 opt2 opt6 opt8
+personne p53 opt1 opt6 opt7
+personne p56 opt2 opt6 opt8
+personne p57 opt1 opt2 opt7
+personne p58 opt2 opt5 opt7
+personne p59 opt7 opt8
+personne p6 opt2 opt8
+personne p61 opt2 opt5 opt6
+personne p62 opt1 opt6
+personne p64 opt1 opt7 opt8
+personne p68 opt1 opt2 opt5
+personne p70 opt1 opt5 opt8
+personne p73 opt2 opt6
+personne p74 opt1 opt2 opt8
+personne p75 opt1 opt3 opt8
+personne p77 opt1 opt5 opt6
+personne p78 opt1 opt7 opt8
+personne p8 opt1 opt6 opt8
+personne p80 opt1 opt7 opt8
+personne p83 opt2 opt3 opt6
+personne p85 opt1 opt5 opt7
+personne p86 opt1 opt2 opt8
+personne p88 opt1 opt5 opt8
+personne p89 opt2 opt8
+personne p90 opt1 opt2 opt5
+personne p92 opt1 opt2 opt7
+personne p93 opt1 opt4 opt5
+personne p94 opt2 opt5 opt7
+personne p96 opt2 opt5 opt7
+groupe opt1_g1 opt1 6 12 24
+groupe opt1_g2 opt1 2 5 30
+groupe opt1_g3 opt1 6 12 20
+groupe opt1_g4 opt1 13 12 24
+groupe opt1_g5 opt1 2 8 30
+groupe opt1_g6 opt1 19 12 30
+groupe opt1_g7 opt1 11 5 15
+groupe opt1_g8 opt1 5 12 20
+groupe opt1_g9 opt1 16 12 24
+groupe opt2_g1 opt2 15 5 24
+groupe opt2_g2 opt2 18 5 30
+groupe opt2_g3 opt2 1 5 15
+groupe opt2_g4 opt2 3 5 24
+groupe opt2_g5 opt2 5 5 24
+groupe opt2_g6 opt2 12 5 30
+groupe opt2_g7 opt2 2 5 24
+groupe opt2_g8 opt2 14 5 24
+groupe opt2_g9 opt2 14 5 20
+groupe opt3_g1 opt3 13 5 15
+groupe opt3_g2 opt3 1 12 20
+groupe opt4_g1 opt4 17 12 15
+groupe opt4_g2 opt4 9 12 20
+groupe opt5_g1 opt5 13 8 30
+groupe opt5_g2 opt5 9 5 30
+groupe opt5_g3 opt5 4 10 15
+groupe opt5_g4 opt5 4 5 20
+groupe opt5_g5 opt5 6 12 24
+groupe opt6_g1 opt6 13 5 24
+groupe opt6_g2 opt6 16 5 30
+groupe opt6_g3 opt6 14 5 30
+groupe opt6_g4 opt6 13 5 24
+groupe opt6_g5 opt6 2 5 20
+groupe opt6_g6 opt6 19 5 20
+groupe opt6_g7 opt6 20 5 15
+groupe opt7_g1 opt7 3 15 24
+groupe opt7_g2 opt7 2 12 20
+groupe opt7_g3 opt7 19 15 24
+groupe opt7_g4 opt7 15 8 24
+groupe opt7_g5 opt7 13 12 20
+groupe opt8_g1 opt8 9 12 20
+groupe opt8_g2 opt8 14 8 30
+groupe opt8_g3 opt8 7 5 30
+groupe opt8_g4 opt8 4 12 20
+groupe opt8_g5 opt8 4 12 20
+groupe opt8_g6 opt8 17 12 24
+groupe opt8_g7 opt8 14 8 30
+groupe opt8_g8 opt8 3 5 20
+
+

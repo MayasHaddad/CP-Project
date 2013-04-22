@@ -12,6 +12,9 @@ if(myArgs.getSize() != 3){
    }
 
 Solver<CP> mySolver();
+string[] fullPath = myArgs[2].split("/");
+int last = fullPath.getSize()-1;
+string fileName = myArgs[2].split("/")[last];
 
 Reader r = Reader();
 r.read(myArgs[2]);
@@ -237,7 +240,7 @@ set{var<CP>{int}} tmpa = dictDivGroup.getKeys();
    }
 
     //Ecriture dans le fichier resultat
-    Writer w(myArgs[2]+"_Modele_1");
+    Writer w("Resultats/"+fileName+"_Modele_1.sol");
     w.write(affectationSet);
 
 }

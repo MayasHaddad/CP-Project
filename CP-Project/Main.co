@@ -19,22 +19,35 @@ Parser p = new Parser(r.getCommands());
 p.parse();
 
 
-set{group} mySet = p.getGroup();
 
 dict{set{string}->set{string}} personBySameOption = p.getPersonBySameOption();
+/*
+   Le personBySameOption associe a chaque set d'options la liste des id des étudiants qui ont pris exactement ces options
+*/
+
 dict{set{string}->int} sizePerson= new dict{set{string}->int}();
+/*
+   Le sizePerson associe à chaque set d'options le nombre d'étudiants qui ont pris exactement ces options
+*/
+
 dict{string->dict{group->var<CP>{int}}} dictGroup = new dict{string->dict{group->var<CP>{int}}}();
+/*
+   Le dictGroup associe chaque matiere(sous forme de string) a un dictionnaire qui associe chaque groupe de cette matiere a une variable contrainte représentant l'effectif de ce groupe.
+*/
+
 dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}} dictDivGroup = new dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}}();
+/*
+   Le dictDivGroup associe chaque variable contrainte du divGroup a un dictionnaire qui associe chaque set d'options contenant la matiere de ce groupe à une variable contrainte.
+*/
 dict{var<CP>{int} -> int} myDict;
-
-
+set{group} mySet = p.getGroup();
 set{set{string}} keys = personBySameOption.getKeys(); // Tous les choix pris
 
 forall(i in keys){
   sizePerson{i} = personBySameOption{i}.getSize(); 
 }
 
-
+//Construction des dictionnaires dictGroup et dictDivGroupŝ
 forall(i in mySet){
    if(!dictGroup.hasKey(i.groupId)){
             dict{group->var<CP>{int}} listeCreneau = new dict{group->var<CP>{int}}();
@@ -56,10 +69,8 @@ forall(i in mySet){
 
 
 function dict{set{string}->var<CP>{int}} buildArray(string group, dict{set{string}->int} sizePerson,Solver<CP> mySolver){
-
    dict{set{string}->var<CP>{int}}
-    newDict = new dict{set{string}->var<CP>{int}}();
-
+   newDict = new dict{set{string}->var<CP>{int}}();
    set{set{string}} keys = sizePerson.getKeys();
    forall(i in keys){
         if(i.contains(group)){          
@@ -91,7 +102,9 @@ function void creerContrainte(dict{var<CP>{int} -> int} myDict,set{string} key, 
 
 solve<mySolver>{
 
-//La somme des sous groupes étudiants ayant pris le set d'option {ia,ig,it} pour les groupes d'ia est égale à la somme des étudiants.
+/*
+   Pour une option donnée, la somme de tous les étudiants dans les groupes de cette option ayant pris un set d'option donné est égal au nombre d'étudiants ayant pris ce set d'option donné 
+*/
 
 set{string} option = dictGroup.getKeys();
 forall(o in option){
@@ -117,8 +130,7 @@ forall(o in option){
 
    set{set{string}} myOptionList = myNewDict.getKeys();
    forall(i in myOptionList){
-        set{var<CP>{int}}mySet = myNewDict{i};
-  
+        set{var<CP>{int}}mySet = myNewDict{i};  
         mySolver.post(  (sum(j in mySet) j) == sizePerson{i});
    }
 
@@ -130,19 +142,17 @@ forall(o in option){
 //La somme des étudiants ayant pris une option est égale à la somme des étudiants contenue dans les groupes de cette option.  
 set{string} keys = dictGroup.getKeys();
 forall(i in keys){
-   //On récupère le nombre d'étudiants ayant choisi l'option en question
    int totPers = calculeTotal(i,sizePerson);
-
-   //On poste notre contrainte : la somme des variables des différents groupes d'une option égale au total totPers
    set{group} tabCreneau = dictGroup{i}.getKeys(); 
     mySolver.post(  (sum(j in tabCreneau) dictGroup{i}{j}) == totPers);
 }
 
+/*
+   Contrainte d'ubiquité : Une personne ne peut pas etre dans deux groupes se déroulant à la même heure
+*/
 set{set{string}} key = sizePerson.getKeys();
-forall(i in key){
-     
-   bool a = false;
-   
+forall(i in key){    
+   bool a = false;   
    forall(j in i){
       set{group} horaireOption = dictGroup{j}.getKeys();
       forall(horair in horaireOption){
@@ -162,26 +172,21 @@ forall(i in key){
                      if(!myDict.hasKey(dictGroup{k}{groupe})){
                         a=true;
                         myDict{dictGroup{k}{groupe}}=1;
-                     }
-                    
+                     }                    
                   }
-               }                      
-              
-         
+               }                                          
          }
          if(a){
           creerContrainte(myDict,i,dictDivGroup,sizePerson,mySolver);
-         }
-         
-         
-      }
-         
-     
-   }
-
-    
+         }               
+      }              
+   }    
 }
 
+
+/*
+   Le nombre d'étudiant dans un groupe est égal a la somme de toutes les sous variables associées à ce groupe ( qui représentent chaque part d'étudiants ayant pris des sets d'option différents dans ce groupe)
+*/
 set{var<CP>{int}} tmpa = dictDivGroup.getKeys();
    forall(i in tmpa){
       set{set{string}} tmp = dictDivGroup{i}.getKeys();
@@ -200,7 +205,9 @@ set{var<CP>{int}} tmpa = dictDivGroup.getKeys();
          label(dictDivGroup{i}{j});
       }
    }
-
+   /*
+      Récupération des données dans un set d'affectation afin d'etre ecrites dans le fichier
+   */
    set{affectation} affectationSet = {};
    set{string} listeOp = dictGroup.getKeys();
    forall(i in listeOp){
@@ -215,7 +222,6 @@ set{var<CP>{int}} tmpa = dictDivGroup.getKeys();
             }
          }
       }
-
       forall(j in listeGroup) {
          set{string} personId = {};
          set{set{string}} aa = dictDivGroup{dictGroup{i}{j}}.getKeys();
@@ -224,18 +230,14 @@ set{var<CP>{int}} tmpa = dictDivGroup.getKeys();
             for(int count = 0; count <nb; count++){
                personId.insert(copy{k}.atRank(0));
                copy{k}.delete(copy{k}.atRank(0));
-            }
-            
-            
+            }                    
          }
-
-         affectationSet.insert(affectation(j.groupIdentifiant,dictGroup{i}{j},personId));
-
-         
+         affectationSet.insert(affectation(j.groupIdentifiant,dictGroup{i}{j},personId));         
       }
    }
 
-     Writer w(myArgs[2]+"_Modele_1");
+    //Ecriture dans le fichier resultat
+    Writer w(myArgs[2]+"_Modele_1");
     w.write(affectationSet);
 
 }

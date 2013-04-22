@@ -35,8 +35,6 @@ forall(i in keys){
 }
 
 
-
-//cout <<mySet<<endl;
 forall(i in mySet){
    if(!dictGroup.hasKey(i.groupId)){
             dict{group->var<CP>{int}} listeCreneau = new dict{group->var<CP>{int}}();
@@ -86,18 +84,10 @@ function int calculeTotal(string s, dict{set{string}->int} sizePerson){
 function void creerContrainte(dict{var<CP>{int} -> int} myDict,set{string} key, dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}} dictDivGroup,dict{set{string}->int} sizePerson,Solver<CP> mySolver){
       set{var<CP>{int}} keys = myDict.getKeys();
       
-      forall(i in keys){
-          // cout << i<< endl;
-          // cout<< dictDivGroup{i} << endl;
-        }
       mySolver.post(  (sum(i in keys) dictDivGroup{i}{key}) <= sizePerson{key});
 
 
 }
-//cout << dictGroup << endl;
-//cout << dictDivGroup << endl;
-//cout << sizePerson << endl;
-//cout << sizePerson << endl;
 
 solve<mySolver>{
 
@@ -128,8 +118,7 @@ forall(o in option){
    set{set{string}} myOptionList = myNewDict.getKeys();
    forall(i in myOptionList){
         set{var<CP>{int}}mySet = myNewDict{i};
-         cout << mySet << endl;
-      cout << sizePerson{i} << endl;   
+  
         mySolver.post(  (sum(j in mySet) j) == sizePerson{i});
    }
 
@@ -140,19 +129,15 @@ forall(o in option){
 
 //La somme des étudiants ayant pris une option est égale à la somme des étudiants contenue dans les groupes de cette option.  
 set{string} keys = dictGroup.getKeys();
-cout << keys << endl;
 forall(i in keys){
    //On récupère le nombre d'étudiants ayant choisi l'option en question
    int totPers = calculeTotal(i,sizePerson);
-    // cout << i << endl;
-     // cout << totPers << endl;
+
    //On poste notre contrainte : la somme des variables des différents groupes d'une option égale au total totPers
    set{group} tabCreneau = dictGroup{i}.getKeys(); 
-  // cout << tabCreneau<< endl;
     mySolver.post(  (sum(j in tabCreneau) dictGroup{i}{j}) == totPers);
 }
 
-//cout << dictGroup << endl;
 set{set{string}} key = sizePerson.getKeys();
 forall(i in key){
      
@@ -162,7 +147,6 @@ forall(i in key){
       set{group} horaireOption = dictGroup{j}.getKeys();
       forall(horair in horaireOption){
       int horaire = horair.creneau;
-      //cout << horaire << endl;
       forall(k in i){
         myDict = new dict{var<CP>{int} -> int}();
               set{group} horaireOptionGroupDeux = dictGroup{k}.getKeys();
@@ -172,12 +156,10 @@ forall(i in key){
                   if(aaa == horaire && horair != groupe){
                  
                      if(!myDict.hasKey(dictGroup{j}{horair})){
-                       // cout << "test" << endl;
                         a=true;
                         myDict{dictGroup{j}{horair}}=1;
                      } 
                      if(!myDict.hasKey(dictGroup{k}{groupe})){
-                       // cout << "test" << endl;
                         a=true;
                         myDict{dictGroup{k}{groupe}}=1;
                      }
@@ -188,8 +170,6 @@ forall(i in key){
          
          }
          if(a){
-            //cout <<"lol"<< endl;
-           // cout <<myDict<<endl;
           creerContrainte(myDict,i,dictDivGroup,sizePerson,mySolver);
          }
          
@@ -198,9 +178,7 @@ forall(i in key){
          
      
    }
-   // cout << i << endl;
-   // cout << myDict << endl;
-      
+
     
 }
 
@@ -244,7 +222,6 @@ set{var<CP>{int}} tmpa = dictDivGroup.getKeys();
          forall(k in aa){
             int nb = dictDivGroup{dictGroup{i}{j}}{k};
             for(int count = 0; count <nb; count++){
-               cout <<copy{k}<<endl;
                personId.insert(copy{k}.atRank(0));
                copy{k}.delete(copy{k}.atRank(0));
             }
@@ -253,17 +230,12 @@ set{var<CP>{int}} tmpa = dictDivGroup.getKeys();
          }
 
          affectationSet.insert(affectation(j.groupIdentifiant,dictGroup{i}{j},personId));
-       //  cout << dictDivGroup{i}{j}<<endl;
-       //  int test = dictDivGroup{dictGroup{i}{j}}{k};
+
          
       }
    }
 
-     Writer w("/net/k13/u/etudiant/sbazin10/CP-Project/sol.sol");
+     Writer w("sol.sol");
     w.write(affectationSet);
-    int a = 
 
-   cout << dictGroup << endl;
-  // cout << dictDivGroup << endl;
-cout << affectationSet<<endl;
 }

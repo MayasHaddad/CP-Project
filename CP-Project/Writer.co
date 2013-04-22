@@ -23,6 +23,3 @@ void write(set{affectation} affectationSet){
 
 }
 
-Writer w("/net/k13/u/etudiant/sbazin10/CP-Project/sol.sol");
-affectation a("ppc1",10,{"jean","fabrice","James","Jordan"});
-w.write({a});

@@ -1,6 +1,7 @@
 include "Tuples";
 include "Reader";
 include "Parser";
+include "Writer";
 
 import cotfd;
 
@@ -10,7 +11,7 @@ Reader r = Reader();
 r.read("/net/k13/u/etudiant/sbazin10/CP-Project/File");
 Parser p = new Parser(r.getCommands());
 p.parse();
-//p.print();
+
 
 set{group} mySet = p.getGroup();
 
@@ -21,9 +22,9 @@ dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}} dictDivGroup = new dict{va
 dict{var<CP>{int} -> int} myDict;
 
 
-dict{set{string}->int} sizePerson= new dict{set{string}->int}(); // Nombre de personnes ayant fait le même choix d'options ?
+//dict{set{string}->int} sizePerson= new dict{set{string}->int}(); // Nombre de personnes ayant fait le même choix d'options ?
 
-dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}} dictDivGroup = new dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}}(); // Je ne sais pas ce que c'est 
+//dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}} dictDivGroup = new dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}}(); // Je ne sais pas ce que c'est 
 
 set{set{string}} keys = personBySameOption.getKeys(); // Tous les choix pris
 
@@ -98,29 +99,41 @@ function void creerContrainte(dict{var<CP>{int} -> int} myDict,set{string} key, 
 
 solve<mySolver>{
 
-/*dict{set{string}->set{var<CP>{int}}} myNewDict = new dict{set{string}->set{var<CP>{int}}}();
-set{var<CP>{int}} keyss = dictDivGroup.getKeys();
-   forall(i in keyss){
-      
-      set{set{string}} keyy = dictDivGroup{i}.getKeys();
-      forall(j in keyy){
-         if(!myNewDict.hasKey(j)){
-            myNewDict{j} ={};
-            myNewDict{j}.insert(dictDivGroup{i}{j});
-         }
-         else{
-            myNewDict{j}.insert(dictDivGroup{i}{j});
-         }
-      }
+//La somme des sous groupes étudiants ayant pris le set d'option {ia,ig,it} pour les groupes d'ia est égale à la somme des étudiants.
+
+set{string} option = dictGroup.getKeys();
+forall(o in option){
+   set{var<CP>{int}} keyss = {};
+   set{group}myNewSet = dictGroup{o}.getKeys();
+   forall(h in myNewSet){
+      keyss.insert(dictGroup{o}{h});
    }
 
-set{set{string}} myOptionList = myNewDict.getKeys();
-forall(i in myOptionList){
-     set{var<CP>{int}}mySet = myNewDict{i};
-      cout << mySet << endl;
-      cout << sizePerson{i} << endl;
-     mySolver.post(  (sum(j in mySet) j) == sizePerson{i});
-}*/
+   dict{set{string}->set{var<CP>{int}}} myNewDict = new dict{set{string}->set{var<CP>{int}}}();
+   forall(i in keyss){    
+     set{set{string}} keyy = dictDivGroup{i}.getKeys();
+     forall(j in keyy){
+        if(!myNewDict.hasKey(j)){
+           myNewDict{j} ={};
+           myNewDict{j}.insert(dictDivGroup{i}{j});
+        }
+        else{
+           myNewDict{j}.insert(dictDivGroup{i}{j});
+        }
+     }
+   }
+
+   set{set{string}} myOptionList = myNewDict.getKeys();
+   forall(i in myOptionList){
+        set{var<CP>{int}}mySet = myNewDict{i};
+         cout << mySet << endl;
+      cout << sizePerson{i} << endl;   
+        mySolver.post(  (sum(j in mySet) j) == sizePerson{i});
+   }
+
+}
+
+
 
 
 //La somme des étudiants ayant pris une option est égale à la somme des étudiants contenue dans les groupes de cette option.  
@@ -208,6 +221,47 @@ set{var<CP>{int}} tmpa = dictDivGroup.getKeys();
       }
    }
 
+   set{affectation} affectationSet = {};
+   set{string} listeOp = dictGroup.getKeys();
+   forall(i in listeOp){
+      dict{set{string}->set{string}} copy = new dict{set{string}->set{string}}();
+      set{group}listeGroup = dictGroup{i}.getKeys();
+
+      forall(j in listeGroup){
+         set{set{string}} aa = dictDivGroup{dictGroup{i}{j}}.getKeys();
+         forall(k in aa){
+            if(!copy.hasKey(k)){
+               copy{k}=personBySameOption{k}.copy();
+            }
+         }
+      }
+
+      forall(j in listeGroup) {
+         set{string} personId = {};
+         set{set{string}} aa = dictDivGroup{dictGroup{i}{j}}.getKeys();
+         forall(k in aa){
+            int nb = dictDivGroup{dictGroup{i}{j}}{k};
+            for(int count = 0; count <nb; count++){
+               cout <<copy{k}<<endl;
+               personId.insert(copy{k}.atRank(0));
+               copy{k}.delete(copy{k}.atRank(0));
+            }
+            
+            
+         }
+
+         affectationSet.insert(affectation(j.groupIdentifiant,dictGroup{i}{j},personId));
+       //  cout << dictDivGroup{i}{j}<<endl;
+       //  int test = dictDivGroup{dictGroup{i}{j}}{k};
+         
+      }
+   }
+
+     Writer w("/net/k13/u/etudiant/sbazin10/CP-Project/sol.sol");
+    w.write(affectationSet);
+    int a = 
+
    cout << dictGroup << endl;
-   //cout << dictDivGroup << endl;
+  // cout << dictDivGroup << endl;
+cout << affectationSet<<endl;
 }

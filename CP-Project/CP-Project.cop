@@ -1,6 +1,6 @@
 <CometProject>
     <CometFiles>
-        <CometFile default="true" id="0">
+        <CometFile default="false" id="0">
             <Path type="relative">Main.co</Path>
         </CometFile>
         <CometFile default="false" id="1">
@@ -9,28 +9,34 @@
         <CometFile default="false" id="2">
             <Path type="relative">Reader.co</Path>
         </CometFile>
-        <CometFile default="false" id="3">
+        <CometFile default="true" id="3">
             <Path type="relative">Tuples.co</Path>
-	</CometFile>	
-	<CometFile default="false" id="4">
+        </CometFile>
+        <CometFile default="false" id="4">
             <Path type="relative">GroupHoraire.co</Path>
+        </CometFile>
+        <CometFile default="false" id="10">
+            <Path type="relative">MainVDeux.co</Path>
+        </CometFile>
+        <CometFile default="false" id="11">
+            <Path type="relative">Writer.co</Path>
         </CometFile>
     </CometFiles>
     <DataFiles/>
     <Breakpoints>
-        <Breakpoint line="1" active="false" id="6">
+        <Breakpoint line="1" active="false" id="5">
             <Path type="relative">Main.co</Path>
         </Breakpoint>
-        <Breakpoint line="21" active="false" id="7">
+        <Breakpoint line="21" active="false" id="6">
             <Path type="relative">../Reader.co</Path>
         </Breakpoint>
-        <Breakpoint line="24" active="false" id="8">
+        <Breakpoint line="24" active="false" id="7">
             <Path type="relative">Main.co</Path>
         </Breakpoint>
-        <Breakpoint line="23" active="false" id="9">
+        <Breakpoint line="23" active="false" id="8">
             <Path type="relative">Main.co</Path>
         </Breakpoint>
-        <Breakpoint line="81" active="false" id="10">
+        <Breakpoint line="81" active="false" id="9">
             <Path type="relative">Main.co</Path>
         </Breakpoint>
     </Breakpoints>

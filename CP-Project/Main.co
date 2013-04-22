@@ -4,10 +4,16 @@ include "Parser";
 
 import cotfd;
 
+string[] myArgs = System.getArgs();
+if(myArgs.getSize() != 3){
+   cout << "Usage : comet Main.co inputFile" << endl;
+   return; 
+   }
+
 Solver<CP> mySolver();
 
 Reader r = Reader();
-r.read("/net/k13/u/etudiant/sbazin10/CP-Project/File");
+r.read(myArgs[2]);
 Parser p = new Parser(r.getCommands());
 p.parse();
 //p.print();
@@ -20,10 +26,6 @@ dict{string->dict{group->var<CP>{int}}} dictGroup = new dict{string->dict{group-
 dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}} dictDivGroup = new dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}}();
 dict{var<CP>{int} -> int} myDict;
 
-
-dict{set{string}->int} sizePerson= new dict{set{string}->int}(); // Nombre de personnes ayant fait le même choix d'options ?
-
-dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}} dictDivGroup = new dict{var<CP>{int} -> dict{set{string}->var<CP>{int}}}(); // Je ne sais pas ce que c'est 
 
 set{set{string}} keys = personBySameOption.getKeys(); // Tous les choix pris
 

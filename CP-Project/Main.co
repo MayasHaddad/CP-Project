@@ -235,7 +235,7 @@ set{var<CP>{int}} tmpa = dictDivGroup.getKeys();
       }
    }
 
-     Writer w("sol.sol");
+     Writer w(myArgs[2]+"_Modele_1");
     w.write(affectationSet);
 
 }

@@ -1,0 +1,28 @@
+include "Tuples";
+
+class Writer{
+string newFileName;
+
+Writer(string newFileNameP){
+    newFileName = newFileNameP;
+}
+
+void write(set{affectation} affectationSet){
+   
+   ofstream fOut(newFileName);
+
+   fOut << "Ceci est une belle facon de repartir vos eleves : " << endl;
+   forall(i in affectationSet){
+      fOut << "groupe " << i.groupId << " " << i.eff << " ";
+      forall(j in i.personId)
+         fOut << j << " ";
+      fOut << endl; 
+     }
+   fOut.close();
+   }
+
+}
+
+Writer w("/net/k13/u/etudiant/sbazin10/CP-Project/sol.sol");
+affectation a("ppc1",10,{"jean","fabrice","James","Jordan"});
+w.write({a});
